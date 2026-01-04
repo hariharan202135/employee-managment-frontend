@@ -1,0 +1,143 @@
+Employee Management System (Frontend)
+📌 Project Overview
+
+This is the frontend module of the Employee Management System, developed using React.js.
+The application supports role-based authentication where Admins manage employees and Employees can view their profile details.
+
+The frontend is fully integrated with a cloud-deployed backend and secured using JWT authentication.
+
+🚀 Features
+🔐 Authentication
+
+Secure login using email and password
+
+JWT-based authentication
+
+Role-based redirection (Admin / Employee)
+
+👨‍💼 Admin Features
+
+Admin login
+
+View employee list
+
+Add employees
+
+Delete employees
+
+Restricted admin access using protected routes
+
+👩‍💻 Employee Features
+
+Employee login
+
+View employee dashboard
+
+View personal profile details
+
+Restricted from admin operations
+
+🛠️ Tech Stack
+
+Frontend: React.js
+
+Routing: React Router DOM
+
+State Management: React Hooks
+
+API Communication: Fetch API
+
+Styling: CSS
+
+Backend: Node.js + Express (Hosted on Render)
+
+Database: MongoDB Atlas
+
+🌐 Backend API URL
+https://employee-managment-system-backend-6.onrender.com
+
+📁 Project Structure
+frontend/
+│
+├── src/
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── AdminDashboard.jsx
+│   │   ├── EmployeeDashboard.jsx
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│
+├── screenshots/
+│   ├── login-page.png
+│   ├── admin-dashboard.png
+│   ├── add-employee.png
+│   ├── employee-dashboard.png
+│
+├── public/
+├── package.json
+└── README.md
+
+📸 Output Screenshots
+
+All output screenshots are available inside the screenshots/ folder.
+
+Included Screenshots:
+
+Login Page
+
+Admin Dashboard (Employee List & Management)
+
+Add Employee Form
+
+Employee Dashboard (Profile View)
+
+These screenshots demonstrate:
+
+Role-based login
+
+Admin managing employees
+
+Employee viewing personal details
+
+🔑 Test Credentials
+Admin Login
+Email: admin5@gmail.com
+Password: admin123
+
+Employee Login
+Email: employee1@gmail.com
+Password: employee123
+
+▶️ How to Run the Frontend
+1️⃣ Install dependencies
+npm install
+
+2️⃣ Start development server
+npm run dev
+
+3️⃣ Open in browser
+http://localhost:5173
+
+🔒 Route Protection
+
+Admin routes are accessible only by admin users
+
+Employee routes are accessible only by employee users
+
+Unauthorized access redirects to login page
+
+📦 Deployment
+
+Backend hosted on Render
+
+Database hosted on MongoDB Atlas
+
+Frontend connected to cloud backend
+
+✅ Project Status
+
+✔ Fully functional
+✔ Role-based access implemented
+✔ Admin manages employees
+✔ Employee profile view enabled
