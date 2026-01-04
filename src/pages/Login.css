@@ -1,45 +1,82 @@
-.login-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f5f7fb;
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  // ✅ MUST use env variable (Vite syntax)
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.user.role);
+
+      if (data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/employee");
+      }
+    } catch (error) {
+      alert("Unable to connect to backend");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Login</h2>
+
+        <form onSubmit={handleSubmit}>
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <label>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
-.login-card {
-  background: white;
-  padding: 30px;
-  width: 350px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.login-card h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.login-card label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.login-card input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.login-card button {
-  width: 100%;
-  padding: 10px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
+export default Login;
