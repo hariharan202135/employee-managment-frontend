@@ -1,32 +1,15 @@
 import { useEffect, useState } from "react";
 
-const API_URL = "https://employee-managment-system-backend-6.onrender.com";
-
 function EmployeeDashboard() {
   const [employee, setEmployee] = useState(null);
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchEmployeeProfile = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/employees`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    const storedUser = localStorage.getItem("user");
 
-        const data = await res.json();
-
-        // ✅ Assuming logged-in employee is returned
-        // If admin logs in, this page won’t be used
-        setEmployee(data[0]);
-      } catch (error) {
-        console.error("Failed to fetch employee profile", error);
-      }
-    };
-
-    fetchEmployeeProfile();
-  }, [token]);
+    if (storedUser) {
+      setEmployee(JSON.parse(storedUser));
+    }
+  }, []);
 
   if (!employee) {
     return <p>Loading employee profile...</p>;
@@ -49,12 +32,8 @@ function EmployeeDashboard() {
             <td>{employee.email}</td>
           </tr>
           <tr>
-            <th>Department</th>
-            <td>{employee.department}</td>
-          </tr>
-          <tr>
-            <th>Salary</th>
-            <td>{employee.salary}</td>
+            <th>Role</th>
+            <td>{employee.role}</td>
           </tr>
         </tbody>
       </table>
