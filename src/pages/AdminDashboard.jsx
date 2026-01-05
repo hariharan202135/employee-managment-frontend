@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_URL = "https://employee-managment-system-backend-6.onrender.com";
+const API_URL ="https://employee-managment-system-backend-8.onrender.com";
 
 function AdminDashboard() {
   const [employees, setEmployees] = useState([]);
@@ -11,65 +11,94 @@ function AdminDashboard() {
 
   const token = localStorage.getItem("token");
 
-  // ✅ useEffect with fetch INSIDE (NO ESLINT ERRORS)
+  /* ============================
+     FETCH EMPLOYEES
+  ============================ */
   useEffect(() => {
     const fetchEmployees = async () => {
-      const res = await fetch(`${API_URL}/api/employees`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      setEmployees(data);
+      try {
+        const res = await fetch(`${API_URL}/api/employees`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch employees");
+
+        const data = await res.json();
+        setEmployees(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error(error);
+        setEmployees([]);
+      }
     };
 
-    fetchEmployees();
+    if (token) fetchEmployees();
   }, [token]);
 
-  // ✅ Add employee
+  /* ============================
+     ADD EMPLOYEE
+  ============================ */
   const handleAddEmployee = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${API_URL}/api/employees`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        department,
-        salary,
-      }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/employees`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          department,
+          salary,
+        }),
+      });
 
-    if (res.ok) {
+      if (!res.ok) {
+        alert("Failed to add employee");
+        return;
+      }
+
+      // Clear form
       setName("");
       setEmail("");
       setDepartment("");
       setSalary("");
 
-      // refresh list
+      // Refresh list
       const updated = await fetch(`${API_URL}/api/employees`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
       setEmployees(await updated.json());
-    } else {
-      alert("Failed to add employee");
+    } catch (error) {
+      alert("Server error while adding employee");
+      console.error(error);
     }
   };
 
-  // ✅ Delete employee
+  /* ============================
+     DELETE EMPLOYEE
+  ============================ */
   const handleDelete = async (id) => {
-    await fetch(`${API_URL}/api/employees/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      await fetch(`${API_URL}/api/employees/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    setEmployees((prev) => prev.filter((emp) => emp._id !== id));
+      setEmployees((prev) => prev.filter((emp) => emp._id !== id));
+    } catch (error) {
+      alert("Failed to delete employee");
+      console.error(error);
+    }
   };
 
   return (
@@ -78,10 +107,31 @@ function AdminDashboard() {
 
       <h3>Add Employee</h3>
       <form onSubmit={handleAddEmployee}>
-        <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input placeholder="Department" value={department} onChange={(e) => setDepartment(e.target.value)} required />
-        <input placeholder="Salary" type="number" value={salary} onChange={(e) => setSalary(e.target.value)} required />
+        <input
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          placeholder="Department"
+          value={department}
+          onChange={(e) => setDepartment(e.target.value)}
+          required
+        />
+        <input
+          placeholder="Salary"
+          type="number"
+          value={salary}
+          onChange={(e) => setSalary(e.target.value)}
+          required
+        />
         <button type="submit">Add</button>
       </form>
 
@@ -108,7 +158,9 @@ function AdminDashboard() {
                 <td>{emp.department}</td>
                 <td>{emp.salary}</td>
                 <td>
-                  <button onClick={() => handleDelete(emp._id)}>Delete</button>
+                  <button onClick={() => handleDelete(emp._id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
