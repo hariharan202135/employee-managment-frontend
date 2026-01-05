@@ -8,7 +8,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL ="https://employee-managment-system-backend-8.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
