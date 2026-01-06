@@ -8,7 +8,8 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const API_URL ="https://employee-managment-system-backend-8.onrender.com";
+  // ✅ Deployed backend URL
+  const API_URL = "https://employee-managment-system-backend-8.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,8 +38,8 @@ function Login() {
       } else {
         navigate("/employee");
       }
-    } catch (err) {
-      alert("Unable to connect to backend");
+    } catch {
+      alert("Unable to connect to server");
     } finally {
       setLoading(false);
     }
@@ -47,24 +48,31 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2>Login</h2>
+        <h1>Employee Management System</h1>
+        <p className="subtitle">BucketStudy Employee Management Task</p>
 
         <form onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
           <button type="submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
