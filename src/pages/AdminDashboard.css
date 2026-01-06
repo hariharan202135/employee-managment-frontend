@@ -1,0 +1,123 @@
+/* Page */
+.admin-page {
+  min-height: 100vh;
+  background: #f1f3f6;
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px;
+}
+
+/* Container */
+.admin-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.admin-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Logout */
+.logout-btn {
+  background: #111827;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logout-btn:hover {
+  background: #000;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+/* Add form */
+.add-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+/* Add button */
+.add-btn {
+  background: #6d28d9;
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-btn:hover {
+  background: #5b21b6;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: linear-gradient(90deg, #020617, #111827);
+  color: white;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Delete button */
+.delete-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
