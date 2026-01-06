@@ -1,42 +1,76 @@
 import { useEffect, useState } from "react";
+import "./EmployeeDashboard.css";
+
+const API_URL = "https://employee-managment-system-backend-8.onrender.com";
 
 function EmployeeDashboard() {
   const [employee, setEmployee] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const fetchEmployeeProfile = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/employees`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    if (storedUser) {
-      setEmployee(JSON.parse(storedUser));
-    }
-  }, []);
+        const data = await res.json();
+
+        // Logged-in employee (demo purpose)
+        setEmployee(data[0]);
+      } catch (error) {
+        console.error("Failed to load employee profile", error);
+      }
+    };
+
+    fetchEmployeeProfile();
+  }, [token]);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
 
   if (!employee) {
-    return <p>Loading employee profile...</p>;
+    return <p className="loading-text">Loading profile...</p>;
   }
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>Employee Dashboard</h1>
+    <div className="employee-page">
+      {/* Heading */}
+      <h1 className="employee-title">Employee Dashboard</h1>
 
-      <h3>My Profile</h3>
+      {/* Logout */}
+      <button className="employee-logout" onClick={handleLogout}>
+        Logout
+      </button>
 
-      <table border="1" cellPadding="10">
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <td>{employee.name}</td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td>{employee.email}</td>
-          </tr>
-          <tr>
-            <th>Role</th>
-            <td>{employee.role}</td>
-          </tr>
-        </tbody>
-      </table>
+      {/* Profile Card */}
+      <div className="employee-card">
+        <h2 className="profile-title">My Profile</h2>
+
+        <div className="detail-row">
+          <span>Name</span>
+          <strong>{employee.name}</strong>
+        </div>
+
+        <div className="detail-row">
+          <span>Email</span>
+          <strong>{employee.email}</strong>
+        </div>
+
+        <div className="detail-row">
+          <span>Department</span>
+          <strong>{employee.department}</strong>
+        </div>
+
+        <div className="detail-row">
+          <span>Salary</span>
+          <strong>₹ {employee.salary}</strong>
+        </div>
+      </div>
     </div>
   );
 }
